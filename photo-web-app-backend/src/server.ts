@@ -30,8 +30,8 @@ app.use(express.json());
 // Serve static files from the uploads directory
 app.use("/uploads", express.static(uploadsDir));
 
-app.use("/api/auth", authRoutes);
 app.use("/api/entries", entryRoutes);
+app.use("/api/auth", authRoutes);
 app.use("/api/admin", adminRoutes);
 
 const PORT = process.env.PORT || 3000;

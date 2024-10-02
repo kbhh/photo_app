@@ -6,19 +6,18 @@ export const auth = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const token = req.header("Authorization")?.replace("Bearer ", "");
     if (!token) {
-      throw new Error("No token provided");
+      throw new Error();
     }
     const decoded = jwt.verify(token, process.env.JWT_SECRET as string) as {
       id: number;
     };
     const user = await User.findByPk(decoded.id);
     if (!user) {
-      throw new Error("User not found");
+      throw new Error();
     }
     req.user = user;
     next();
   } catch (error) {
-    console.error("Authentication error:", error);
     res.status(401).json({ message: "Please authenticate" });
   }
 };
@@ -28,13 +27,9 @@ export const adminAuth = async (
   res: Response,
   next: NextFunction
 ) => {
-  try {
-    const user = req.user as User;
-    if (!user.isAdmin) {
-      return res.status(403).json({ message: "Access denied" });
-    }
+  if (req.user && (req.user as User).isAdmin) {
     next();
-  } catch (error) {
-    res.status(500).json({ message: "Server error" });
+  } else {
+    res.status(403).json({ message: "Access denied. Admin only." });
   }
 };
