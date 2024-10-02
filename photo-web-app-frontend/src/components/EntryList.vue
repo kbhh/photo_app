@@ -68,10 +68,11 @@ const handleImageError = (event: Event) => {
 
 const fetchEntries = async () => {
   try {
-    const response = await api.get("/entries");
+    const endpoint = userStore.isAdmin ? '/admin/entries' : '/entries';
+    const response = await api.get(endpoint);
     entries.value = response.data;
   } catch (error) {
-    console.error("Failed to fetch entries:", error);
+    console.error('Failed to fetch entries:', error);
   }
 };
 

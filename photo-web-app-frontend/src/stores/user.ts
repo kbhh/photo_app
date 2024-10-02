@@ -30,21 +30,28 @@ export const useUserStore = defineStore("user", {
     setUser(user: User) {
       this.user = user;
     },
+
     setToken(token: string) {
       this.token = token;
       localStorage.setItem("token", token);
     },
-    async login(email: string, password: string) {
-      const response = await api.post("/auth/login", { email, password });
-      this.setUser(response.data.user);
-      this.setToken(response.data.token);
-    },
-    async register(name: string, email: string, password: string) {
+    async register(
+      name: string,
+      email: string,
+      password: string,
+      adminToken?: string
+    ) {
       const response = await api.post("/auth/register", {
         name,
         email,
         password,
+        adminToken,
       });
+      this.setUser(response.data.user);
+      this.setToken(response.data.token);
+    },
+    async login(email: string, password: string) {
+      const response = await api.post("/auth/login", { email, password });
       this.setUser(response.data.user);
       this.setToken(response.data.token);
     },
