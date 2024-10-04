@@ -19,8 +19,8 @@ The project is divided into two main parts:
 
 1. Clone the repository:
    ```
-   git clone https://github.com/your-username/photo-web-app.git
-   cd photo-web-app
+   git clone https://github.com/kbhh/photo_app.git
+   cd photo_app
    ```
 
 2. Navigate to the backend directory:
